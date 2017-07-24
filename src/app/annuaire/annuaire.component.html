@@ -1,56 +1,11 @@
-<!-- <div class="container" style="border-style:groove;">
-	<div class="row">
-		<h4>So I've worked on a new project and came up with this UI. Here you can use it. :) Follow me on twitter: <a href="https://twitter.com/AlexMahrt/">@AlexMahrt</a></h4>
-	</div>
-    <hr>
-            <div class="row row-margin-bottom">
-            <div class="col-md-5 no-padding lib-item" data-category="view">
-                <div class="lib-panel">
-                    <div class="row box-shadow">
-                        <div class="col-md-6">
-                            <img class="lib-img-show" src="http://lorempixel.com/850/850/?random=123">
-                        </div>
-                        <div class="col-md-6">
-                            <div class="lib-row lib-header">
-                                Example library
-                                <div class="lib-header-seperator"></div>
-                            </div>
-                            <div class="lib-row lib-desc">
-                                Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-1"></div>
-            <div class="col-md-5 no-padding lib-item" data-category="ui">
-                <div class="lib-panel">
-                    <div class="row box-shadow">
-                        <div class="col-md-6">
-                            <img class="lib-img" src="http://lorempixel.com/850/850/?random=456">
-                        </div>
-                        <div class="col-md-6">
-                            <div class="lib-row lib-header">
-                                Example library
-                                <div class="lib-header-seperator"></div>
-                            </div>
-                            <div class="lib-row lib-desc">
-                                Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-</div> -->
 
-<div class="container-fluid" id="conteneurAnnuaire">
+<div class="container" id="conteneurAnnuaire">
 
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
-<h1 class="demo-title">Material responsive pricing tables</h1>
+<h1 class="demo-title">Ici le titre et barre de recherche.</h1>
 
-<div class="pricing-table">
+<!-- <div class="pricing-table">
+   
     <div class="pricing-option">
         <i class="material-icons">important_devices</i>
         <h1>Ui design</h1>
@@ -98,6 +53,81 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
-</div>
+
+
+    <div class="row" id="ligneCards">
+        
+        <div class="col-xs-12 col-sm-4 col-md-4" *ngFor="let membre of listeMembres">
+            <div class="well well-sm" id="carteMembre">
+                <div class="row">
+                    
+                    <!-- photo de profil -->
+                    <div class="col-sm-6 col-md-4">
+                        <img [src]="membre.photo" alt="photo" class="img-rounded img-responsive" id="photoProfil"/>
+                    </div>
+
+                    <!--nom prénom  -->
+                    <div class="col-sm-6 col-md-8">
+                        <h4> {{membre.nom}} {{membre.prenom}}</h4>
+                        
+                        <!-- départements -->
+                        <small >
+                            <!-- <cite title="San Francisco, USA"> -->
+                                <i class="glyphicon glyphicon-map-marker iconeCard"></i>
+                                <span *ngFor="let departement of membre.localisation"> {{departement.nom}} ({{departement.numero}})
+                                </span>
+                            <!-- </cite> -->
+                        </small>
+                        
+                        <p> 
+                            
+                            <!-- <i class="material-icons">work</i> -->
+                            <i class="fa fa-desktop iconeCard" aria-hidden="true"></i>
+                            <span *ngFor="let profession of membre.professions let last=last;"> 
+                                
+                                <span  *ngIf="!last"> {{profession.nomMetier}}, </span> 
+                                <span *ngIf="last">{{profession.nomMetier}} </span>
+                            </span>
+                            <br />
+                            
+                            <!-- site web  -->
+                            <i class="glyphicon glyphicon-globe iconeCard"></i><a href="http://www.jquery2dotnet.com">www.jquery2dotnet.com</a>
+                            <br />
+
+                            <!-- compteur popularité  -->
+                            <i class="glyphicon glyphicon-thumbs-up iconeCard"></i>
+                            <span style="font-weight:bold;"> {{membre.compteurPopularite}} </span> votes
+                        
+                        </p>
+
+                        <!-- Split button -->
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary">
+                                Social</button>
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span><span class="sr-only">Social</span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Twitter</a></li>
+                                <li><a href="https://plus.google.com/+Jquery2dotnet/posts">Google +</a></li>
+                                <li><a href="https://www.facebook.com/jquery2dotnet">Facebook</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Github</a></li>
+                            </ul>
+                        </div>
+
+                        <button type="button" class="btn btn-default btn-circle btn-lg"><i class="glyphicon glyphicon-thumbs-up"></i></button>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    </div>

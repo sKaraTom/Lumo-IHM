@@ -5,5 +5,19 @@ html {
 
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 4vh;
+  padding-top : 50px;
+   /* margin-bottom: 5vh;  */
+  /* background-color:red; */
+}
+
+h1 {
+  font-size:1em;
+}
+
+button {
+  background-color:white;
+}
+
+button:hover {
+  background-color:black;
 }
