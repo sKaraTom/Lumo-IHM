@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Departement } from "../objet-metier/departement";
 import { ProfilPublic } from "../objet-metier/profil-public";
 import { Profession } from "../objet-metier/profession";
+import { ProfilClient } from "../objet-metier/profil-client";
 
 @Component({
   selector: 'app-annuaire',
@@ -10,18 +11,60 @@ import { Profession } from "../objet-metier/profession";
 })
 export class AnnuaireComponent implements OnInit {
 
-  listeDepartements : Departement[];
-  listeMembres : ProfilPublic[];
-  listeProfessions : Profession[] = [
+  private client : ProfilClient;
+  private listeMembresSelectionnes: ProfilPublic[];
+  
+  private saisieDepartement: string;
+  private listeDepartementsSelectionnes : Departement [];
+
+  private listeDepartements : Departement[];
+  private listeMembres : ProfilPublic[];
+  private listeProfessions : Profession[] = [
     {"nomMetier":"photographie", "listeMembres":this.listeMembres},
     {"nomMetier":"retouche photo", "listeMembres":this.listeMembres},
     {"nomMetier":"maquillage", "listeMembres":this.listeMembres},
-  
-  
   ];
 
+
+
+  // public uuid:string;
+    // public photo:string;
+    // public nom:string;
+    // public prenom:string;
+    // public professions:Profession[];
+    // public localisation:Departement[];
+    // public urlSite:string;
+    // public compteurPopularite:number;
+
+    // public listeFavoris:ProfilPublic[];
+    // public listeVotes:String[];
+
+
+
   constructor() {
+
+    this.client = new ProfilClient();
+
+
+    this.client.uuid = "bea5657e-a021-416d-b2a0-eda44fed7244";
+    this.client.nom = "Sitter";
+    this.client.prenom = "Alexandre";
+    this.client.listeFavoris = [{
+        "uuid":"96f75bf3-216b-4813-ae99-03a3728b70fc",
+        "photo":"../../assets/wedding-photographer-portrait.jpg",
+        "nom":"nom 0",
+        "prenom" : "prenom 0",
+        "professions": this.listeProfessions,
+        "localisation": this.listeDepartements,
+        "compteurPopularite" : 0,
+        "urlSite" : "http://www.yahoo.fr"
+      }];
+    
     this.listeMembres = [];
+
+    this.listeMembresSelectionnes = [];
+    this.listeDepartementsSelectionnes = [];
+
    }
 
   ngOnInit() {
@@ -36,7 +79,7 @@ export class AnnuaireComponent implements OnInit {
 
     for (var index = 0; index < 10; index++) {
       this.listeMembres.push({
-        "uuid":"uuid" + index,
+        "uuid":"96f75bf3-216b-4813-ae99-03a3728b70fc" + index,
         "photo":"../../assets/wedding-photographer-portrait.jpg",
         "nom":"nom " + index,
         "prenom" : "prenom " + index,
@@ -46,22 +89,57 @@ export class AnnuaireComponent implements OnInit {
         "urlSite" : "http://www.yahoo.fr"
       });      
     }
-    console.dir(this.listeMembres);
+    
 
-//  public uuid:string;
-//     public photo:string;
-//     public nom:string;
-//     public prenom:string;
-//     public professions:Profession[];
-//     public localisation:Departement[];
-//     public compteurPopularite:number;
-//     public urlSite:string;
 
   }
 
 
+  private selectionnerProfil(membre:ProfilPublic, estSelectionne:boolean) : void {
+    
+    console.log("estSelectionne ",estSelectionne);
+    // console.dir(this.listeMembresSelectionnes);
 
+    if(estSelectionne) {
+      // console.log("boucle true");
+      this.listeMembresSelectionnes.push(membre);
+    }
 
+    else if(!estSelectionne) {
+      // console.log("boucle false");
+      this.listeMembresSelectionnes = this.listeMembresSelectionnes.filter( item => item.uuid != membre.uuid )  
+    }
+
+    console.dir(this.listeMembresSelectionnes);
+
+  }
+
+  private filtrerDepartements(event) : void {
+    
+    this.listeDepartementsSelectionnes = [];
+
+    let query = event.query;
+    console.log(query);
+
+    for(let i = 0; i < this.listeDepartements.length; i++) {
+        
+      let departement = this.listeDepartements[i];
+        
+      if(departement.nom.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            this.listeDepartementsSelectionnes.push(departement);
+      }
+    }
+    
+    console.dir(this.listeDepartementsSelectionnes);
+  }
+
+  private cliquerDropdownDepartements(event) : void {
+
+    this.listeDepartementsSelectionnes = [];
+
+    this.listeDepartementsSelectionnes = this.listeDepartements;
+
+  }
 
 
 }

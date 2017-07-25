@@ -5,9 +5,10 @@ html {
 
 body {
   /* Margin bottom by footer height */
-  padding-top : 50px;
+  margin-top : 65px;
    /* margin-bottom: 5vh;  */
-  /* background-color:red; */
+   /* background-color:red;  */
+   /* border-style:dashed; */
 }
 
 h1 {

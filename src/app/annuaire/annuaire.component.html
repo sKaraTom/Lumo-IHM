@@ -2,65 +2,27 @@
 <div class="container" id="conteneurAnnuaire">
 
 
-<h1 class="demo-title">Ici le titre et barre de recherche.</h1>
+<h1 class="titre">Ici le titre et barre de recherche.</h1>
 
-<!-- <div class="pricing-table">
-   
-    <div class="pricing-option">
-        <i class="material-icons">important_devices</i>
-        <h1>Ui design</h1>
-        <hr />
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente harum voluptatum, sit cum voluptatibus inventore quae qui provident eveniet dicta at, quibusdam ipsam iusto reprehenderit hic saepe nesciunt sed illo.</p>
-        <hr />
-        <div class="price">
-            <div class="front">
-                <span class="price">199 <b>$</b></span>
-            </div>
-            <div class="back">
-                <a href="#" class="button">Purchase now</a>
-            </div>
-        </div>
-    </div>
+ <div class="row well" id="ligneRecherche">
+    <div class="col-md-6 col-sm-6 col-xs-12"> 
+        <p-autoComplete [(ngModel)]="saisieDepartement" [suggestions]="listeDepartementsSelectionnes" (completeMethod)="filtrerDepartements($event)" (onDropdownClick)="cliquerDropdownDepartements($event)" [dropdown]="true" [multiple]="true" field="nom" [size]="30" [minLength]="1" placeholder="sélectionner les localisations"></p-autoComplete>
+     </div>
+    <p-dropdown [options]="listeDepartements"  placeholder="Select a City" [(ngModel)]="saisieDepartement"></p-dropdown>
+    <input id="input" type="text" size="30" pInputText [(ngModel)]="text"> 
     
-    <div class="pricing-option">
-        <i class="material-icons">perm_identity</i>
-        <h1>Ux design</h1>
-        <hr />
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente harum voluptatum, sit cum voluptatibus inventore quae qui provident eveniet dicta at, quibusdam ipsam iusto reprehenderit hic saepe nesciunt sed illo.</p>
-        <hr />
-        <div class="price">
-            <div class="front">
-                <span class="price">399 <b>$</b></span>
-            </div>
-            <div class="back">
-                <a href="#" class="button">Purchase now</a>
-            </div>
-        </div>
-    </div>
-    
-    <div class="pricing-option">
-        <i class="material-icons">art_track</i>
-        <h1>Print design</h1>
-        <hr />
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente harum voluptatum, sit cum voluptatibus inventore quae qui provident eveniet dicta at, quibusdam ipsam iusto reprehenderit hic saepe nesciunt sed illo.</p>
-        <hr />
-        <div class="price">
-            <div class="front">
-                <span class="price">999 <b>$</b></span>
-            </div>
-            <div class="back">
-                <a href="#" class="button">Purchase now</a>
-            </div>
-        </div>
-    </div>
-</div> -->
+ </div> 
 
-
+<!-- 
+ <p-dataTable [value]="listeDepartements">
+    <p-column field="numero" header="numero"></p-column>
+    <p-column field="nom" header="nom"></p-column>
+</p-dataTable> -->
 
     <div class="row" id="ligneCards">
         
-        <div class="col-xs-12 col-sm-4 col-md-4" *ngFor="let membre of listeMembres">
-            <div class="well well-sm" id="carteMembre">
+        <div class="col-xs-12 col-sm-4 col-md-4" *ngFor="let membre of listeMembres let index = index">
+            <div class="well well-sm" id="carteMembre" (click)="membre.estSelectionne= !membre.estSelectionne;selectionnerProfil(membre, membre.estSelectionne);"  [ngClass]="{'cardSelectionnee' : membre.estSelectionne}">
                 <div class="row">
                     
                     <!-- photo de profil -->
@@ -81,9 +43,9 @@
                             <!-- </cite> -->
                         </small>
                         
+                        <!-- INFOS PROFIL  -->
                         <p> 
-                            
-                            <!-- <i class="material-icons">work</i> -->
+                            <!-- professions  -->
                             <i class="fa fa-desktop iconeCard" aria-hidden="true"></i>
                             <span *ngFor="let profession of membre.professions let last=last;"> 
                                 
@@ -93,7 +55,7 @@
                             <br />
                             
                             <!-- site web  -->
-                            <i class="glyphicon glyphicon-globe iconeCard"></i><a href="http://www.jquery2dotnet.com">www.jquery2dotnet.com</a>
+                            <i class="glyphicon glyphicon-globe iconeCard"></i><a [href]="membre.urlSite" target="_blank">{{membre.urlSite}}</a>
                             <br />
 
                             <!-- compteur popularité  -->
@@ -102,24 +64,34 @@
                         
                         </p>
 
-                        <!-- Split button -->
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-primary">
-                                Social</button>
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                <span class="caret"></span><span class="sr-only">Social</span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">Twitter</a></li>
-                                <li><a href="https://plus.google.com/+Jquery2dotnet/posts">Google +</a></li>
-                                <li><a href="https://www.facebook.com/jquery2dotnet">Facebook</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">Github</a></li>
-                            </ul>
+                        <!-- LIGNE BOUTONS  -->
+                        <div class="row">
+                            <div class="col-sm-7 col-md-7" id="colCheckbox">
+                                
+                                <span id="iconeCheckbox" class="glyphicon" [ngClass]="{ 'glyphicon-check' : membre.estSelectionne, ' glyphicon-unchecked' : !membre.estSelectionne }" aria-hidden="true"></span>
+                                CONTACTER
+
+                                <!-- Split button -->
+                                <!-- <div class="btn-group">
+                                    <button type="button" class="btn btn-primary">
+                                        Social</button>
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                        <span class="caret"></span><span class="sr-only">Social</span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Twitter</a></li>
+                                        <li><a href="https://plus.google.com/+Jquery2dotnet/posts">Google +</a></li>
+                                        <li><a href="https://www.facebook.com/jquery2dotnet">Facebook</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="#">Github</a></li>
+                                    </ul>
+                                </div> -->
+                            </div>
+                            <div class="col-sm-5  col-md-5" style="margin:0;text-align:end;padding-left:0;">
+                                <button type="button" class="btn btn-default btn-circle" disabled="true"><i class="glyphicon glyphicon-thumbs-up"></i></button>
+                                <button type="button" class="btn btn-default btn-circle"><i class="glyphicon glyphicon glyphicon-star-empty"></i></button>
+                            </div>
                         </div>
-
-                        <button type="button" class="btn btn-default btn-circle btn-lg"><i class="glyphicon glyphicon-thumbs-up"></i></button>
-
 
                     </div>
                 </div>
