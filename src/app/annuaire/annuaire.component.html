@@ -2,15 +2,43 @@
 <div class="container" id="conteneurAnnuaire">
 
 
-<h1 class="titre">Ici le titre et barre de recherche.</h1>
+<!-- <h1 class="titre">Ici le titre et barre de recherche.</h1> -->
 
  <div class="row well" id="ligneRecherche">
-    <div class="col-md-6 col-sm-6 col-xs-12"> 
-        <p-autoComplete [(ngModel)]="saisieDepartement" [suggestions]="listeDepartementsSelectionnes" (completeMethod)="filtrerDepartements($event)" (onDropdownClick)="cliquerDropdownDepartements($event)" [dropdown]="true" [multiple]="true" field="nom" [size]="30" [minLength]="1" placeholder="sélectionner les localisations"></p-autoComplete>
+    <div class="col-md-5 col-sm-5 col-xs-12"> 
+      <h4>Localisation</h4>
+        <!-- <p-autoComplete [(ngModel)]="listeDepartementsSelectionnes" [suggestions]="listeDepartementsFiltres" (completeMethod)="filterCountryMultiple($event)" styleClass="wid100"
+            [minLength]="1" placeholder="Localisation" field="nom" [multiple]="true">
+        </p-autoComplete>
+        <ul>
+            <li *ngFor="let c of countries">{{c.name}}</li>
+        </ul> -->
+         <p-autoComplete [(ngModel)]="saisieProfession" [suggestions]="filtreProfessions" (completeMethod)="filtrerProfessions($event)" [size]="30"
+        [minLength]="1" placeholder="sélectionner un département" [dropdown]="true" (onDropdownClick)="cliquerSurDropdownProfessions($event)">
+        </p-autoComplete>
+        <!-- <span style="margin-left:50px">Profession : {{saisieProfession||'none'}}</span> -->
+
      </div>
-    <p-dropdown [options]="listeDepartements"  placeholder="Select a City" [(ngModel)]="saisieDepartement"></p-dropdown>
-    <input id="input" type="text" size="30" pInputText [(ngModel)]="text"> 
     
+    <div class="col-md-5 col-sm-5 col-xs-12"> 
+    <h4>Profession</h4>
+    <p-autoComplete [(ngModel)]="saisieProfession" [suggestions]="filtreProfessions" (completeMethod)="filtrerProfessions($event)" [size]="30"
+        [minLength]="1" placeholder="Sélectionner une profession" [dropdown]="true" (onDropdownClick)="cliquerSurDropdownProfessions($event)">
+    </p-autoComplete>
+    <!-- <span style="margin-left:50px">Profession : {{saisieProfession||'none'}}</span> -->
+    </div>
+
+    <!--ANGULAR MATERIAL  -->
+    <md-input-container>
+        <input mdInput placeholder="Profession" [mdAutocomplete]="auto" [formControl]="stateCtrl">
+    </md-input-container>
+
+    <md-autocomplete #auto="mdAutocomplete">
+        <md-option *ngFor="let state of filteredStates | async" [value]="state">
+             {{ state }}
+        </md-option>
+    </md-autocomplete>
+
  </div> 
 
 <!-- 

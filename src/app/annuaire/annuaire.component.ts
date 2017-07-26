@@ -3,6 +3,11 @@ import { Departement } from "../objet-metier/departement";
 import { ProfilPublic } from "../objet-metier/profil-public";
 import { Profession } from "../objet-metier/profession";
 import { ProfilClient } from "../objet-metier/profil-client";
+import { SelectItem } from "primeng/primeng";
+import { FormControl } from "@angular/forms";
+
+import 'rxjs/add/operator/startWith';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'app-annuaire',
@@ -14,8 +19,9 @@ export class AnnuaireComponent implements OnInit {
   private client : ProfilClient;
   private listeMembresSelectionnes: ProfilPublic[];
   
-  private saisieDepartement: string;
+  private saisieDepartement: any;
   private listeDepartementsSelectionnes : Departement [];
+  listeDepartementsFiltres : any[];
 
   private listeDepartements : Departement[];
   private listeMembres : ProfilPublic[];
@@ -25,24 +31,78 @@ export class AnnuaireComponent implements OnInit {
     {"nomMetier":"maquillage", "listeMembres":this.listeMembres},
   ];
 
+  // autocomplete PROFESSION
+  private listeToutesProfessions = ["Photographie","Retouche","Maquillage","Coiffure","Stylisme","Cadreuse/cadreuse","Montage vidéo","Ingénieur(e) son","Etalonnage"];
+  private saisieProfession : string;
+  private filtreProfessions : any[];
 
+  private listeVilles: SelectItem[];
 
-  // public uuid:string;
-    // public photo:string;
-    // public nom:string;
-    // public prenom:string;
-    // public professions:Profession[];
-    // public localisation:Departement[];
-    // public urlSite:string;
-    // public compteurPopularite:number;
+    country: any;
+    countries: any[]
+    filteredCountriesSingle: any[];
+    filteredCountriesMultiple: any[];
 
-    // public listeFavoris:ProfilPublic[];
-    // public listeVotes:String[];
+    // Angular Material
+    stateCtrl: FormControl;
+    filteredStates: any;
 
+     states = [
+    'Alabama',
+    'Alaska',
+    'Arizona',
+    'Arkansas',
+    'California',
+    'Colorado',
+    'Connecticut',
+    'Delaware',
+    'Florida',
+    'Georgia',
+    'Hawaii',
+    'Idaho',
+    'Illinois',
+    'Indiana',
+    'Iowa',
+    'Kansas',
+    'Kentucky',
+    'Louisiana',
+    'Maine',
+    'Maryland',
+    'Massachusetts',
+    'Michigan',
+    'Minnesota',
+    'Mississippi',
+    'Missouri',
+    'Montana',
+    'Nebraska',
+    'Nevada',
+    'New Hampshire',
+    'New Jersey',
+    'New Mexico',
+    'New York',
+    'North Carolina',
+    'North Dakota',
+    'Ohio',
+    'Oklahoma',
+    'Oregon',
+    'Pennsylvania',
+    'Rhode Island',
+    'South Carolina',
+    'South Dakota',
+    'Tennessee',
+    'Texas',
+    'Utah',
+    'Vermont',
+    'Virginia',
+    'Washington',
+    'West Virginia',
+    'Wisconsin',
+    'Wyoming',
+  ];
 
 
   constructor() {
-
+    
     this.client = new ProfilClient();
 
 
@@ -65,17 +125,34 @@ export class AnnuaireComponent implements OnInit {
     this.listeMembresSelectionnes = [];
     this.listeDepartementsSelectionnes = [];
 
+    this.listeDepartementsFiltres = [];
+
+     this.listeDepartements = [
+      {"numero" :971, "nom" :"Guadeloupe", "listeMembres" : this.listeMembres},
+      {"numero" :972, "nom" :"Martinique", "listeMembres" : this.listeMembres},
+      {"numero" :973, "nom" :"Guyane", "listeMembres" : this.listeMembres},
+      {"numero" :974, "nom" :"La Réunion", "listeMembres" : this.listeMembres},
+      {"numero" :976, "nom" :"Mayotte", "listeMembres" : this.listeMembres},
+    ];
+
+    this.listeVilles = [];
+        this.listeVilles.push({label:'sélectionner une ville', value:null});
+        this.listeVilles.push({label:'New York', value:{id:1, name: 'New York', code: 'NY'}});
+        this.listeVilles.push({label:'Rome', value:{id:2, name: 'Rome', code: 'RM'}});
+        this.listeVilles.push({label:'London', value:{id:3, name: 'London', code: 'LDN'}});
+        this.listeVilles.push({label:'Istanbul', value:{id:4, name: 'Istanbul', code: 'IST'}});
+        this.listeVilles.push({label:'Paris', value:{id:5, name: 'Paris', code: 'PRS'}});
+
+    // Angular Material
+    this.stateCtrl = new FormControl();
+    this.filteredStates = this.stateCtrl.valueChanges
+        .startWith(null)
+        .map(name => this.filterStates(name));
+
    }
 
   ngOnInit() {
 
-    this.listeDepartements = [
-      {"numero" :971, "nom" :"Guadeloupe", "listeMembres" : this.listeMembres},
-      {"numero" :972, "nom" :"Martinique", "listeMembres" : this.listeMembres},
-      {"numero" :973, "nom" :"Guyane", "listeMembres" : this.listeMembres},
-      // {"numero" :974, "nom" :"La Réunion", "listeMembres" : this.listeMembres},
-      // {"numero" :976, "nom" :"Mayotte", "listeMembres" : this.listeMembres},
-    ];
 
     for (var index = 0; index < 10; index++) {
       this.listeMembres.push({
@@ -94,25 +171,25 @@ export class AnnuaireComponent implements OnInit {
 
   }
 
+  // Angular Material
+  filterStates(val: string) {
+    return val ? this.states.filter(s => s.toLowerCase().indexOf(val.toLowerCase()) === 0)
+               : this.states;
+  }
+
 
   private selectionnerProfil(membre:ProfilPublic, estSelectionne:boolean) : void {
     
-    console.log("estSelectionne ",estSelectionne);
-    // console.dir(this.listeMembresSelectionnes);
-
     if(estSelectionne) {
-      // console.log("boucle true");
       this.listeMembresSelectionnes.push(membre);
     }
 
     else if(!estSelectionne) {
-      // console.log("boucle false");
       this.listeMembresSelectionnes = this.listeMembresSelectionnes.filter( item => item.uuid != membre.uuid )  
     }
 
-    console.dir(this.listeMembresSelectionnes);
-
   }
+
 
   private filtrerDepartements(event) : void {
     
@@ -140,6 +217,49 @@ export class AnnuaireComponent implements OnInit {
     this.listeDepartementsSelectionnes = this.listeDepartements;
 
   }
+
+
+   filtrerProfessions(event) {
+        this.filtreProfessions = [];
+        
+        for(let i = 0; i < this.listeToutesProfessions.length; i++) {
+            let profession = this.listeToutesProfessions[i];
+            if(profession.toLowerCase().indexOf(event.query.toLowerCase()) == 0) {
+                this.filtreProfessions.push(profession);
+            }
+        }
+    }
+    
+    cliquerSurDropdownProfessions() {
+        this.filtreProfessions = [];
+        
+        //mimic remote call
+        setTimeout(() => {
+            this.filtreProfessions = this.listeToutesProfessions;
+        }, 10)
+    }
+
+
+    filterCountryMultiple(event) {
+        let query = event.query;
+      
+            this.listeDepartementsFiltres = this.filterCountry(query, this.listeDepartements);
+    }
+    
+    filterCountry(query, listeDepartements: any[]):any[] {
+        //in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
+        let filtered : any[] = [];
+
+
+        for(let i = 0; i < listeDepartements.length; i++) {
+            let departement = listeDepartements[i];
+            if(departement.nom.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+                filtered.push(departement);
+            }
+        }
+        return filtered;
+    }
+
 
 
 }

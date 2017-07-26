@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CommonModule } from "@angular/common";
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
@@ -15,6 +15,9 @@ import { PublicationOffreComponent } from './publication-offre/publication-offre
 // primeng
 import { ChipsModule, DropdownModule, DataTableModule, SharedModule, AutoCompleteModule, InputTextModule } from 'primeng/primeng';
 
+import { MdAutocompleteModule, MdInputModule } from '@angular/material';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,12 +28,14 @@ import { ChipsModule, DropdownModule, DataTableModule, SharedModule, AutoComplet
     PublicationOffreComponent,
   ],
   imports: [
+    MdAutocompleteModule,MdInputModule, // bloc Angular Material
     DataTableModule,SharedModule, // pour tests, à supprimer
-    InputTextModule,DropdownModule,ChipsModule,AutoCompleteModule,
-    BrowserAnimationsModule,
+    InputTextModule,DropdownModule,ChipsModule,AutoCompleteModule, // bloc primeng
+    ReactiveFormsModule,
     FormsModule,
     CommonModule,
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule
   ],
   providers: [],
