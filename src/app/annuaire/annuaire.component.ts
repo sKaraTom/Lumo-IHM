@@ -16,6 +16,8 @@ import 'rxjs/add/operator/map';
 })
 export class AnnuaireComponent implements OnInit {
 
+  private uuidClient = "96f75bf3-216b-4813-ae99-03a3728b70fc";
+
   private client : ProfilClient;
   private listeMembresSelectionnes: ProfilPublic[];
   
@@ -26,9 +28,9 @@ export class AnnuaireComponent implements OnInit {
   private listeDepartements : Departement[];
   private listeMembres : ProfilPublic[];
   private listeProfessions : Profession[] = [
-    {"nomMetier":"photographie", "listeMembres":this.listeMembres},
-    {"nomMetier":"retouche photo", "listeMembres":this.listeMembres},
-    {"nomMetier":"maquillage", "listeMembres":this.listeMembres},
+    {"id" : 1, "nomMetier":"photographie", "listeMembres":this.listeMembres},
+    {"id" : 2,"nomMetier":"retouche photo", "listeMembres":this.listeMembres},
+    {"id" : 3,"nomMetier":"maquillage", "listeMembres":this.listeMembres},
   ];
 
   // autocomplete PROFESSION
@@ -110,7 +112,7 @@ export class AnnuaireComponent implements OnInit {
     this.client.nom = "Sitter";
     this.client.prenom = "Alexandre";
     this.client.listeFavoris = [{
-        "uuid":"96f75bf3-216b-4813-ae99-03a3728b70fc",
+        "uuid":"96f75bf3-216b-4813-ae99-03a3728b70fc0",
         "photo":"../../assets/wedding-photographer-portrait.jpg",
         "nom":"nom 0",
         "prenom" : "prenom 0",
@@ -119,6 +121,9 @@ export class AnnuaireComponent implements OnInit {
         "compteurPopularite" : 0,
         "urlSite" : "http://www.yahoo.fr"
       }];
+      this.client.listeVotes = [
+        "96f75bf3-216b-4813-ae99-03a3728b70fc0"
+      ];
     
     this.listeMembres = [];
 
@@ -167,9 +172,32 @@ export class AnnuaireComponent implements OnInit {
       });      
     }
     
+  }
 
+
+
+
+  private verifierSiFavori(uuid:string) : boolean {
+
+    return this.client.listeFavoris.some(x => x.uuid === uuid)
+  }
+
+  private verifierSiVoteExistant(uuid:string) : boolean {
+     return this.client.listeVotes.some(x => x === uuid);
+  }
+
+  private voter(membre:ProfilPublic, index:number) : void {
+
+      // vérifier d'abord que le client n'a pas déjà voté (si contourne html) : A faire
+      this.listeMembres[index].compteurPopularite = membre.compteurPopularite + 1;
+      this.client.listeVotes.push(membre.uuid);
+
+      // envoyer au mw : 
+      // - le nouveau compteur de popularité du ProfilPublic à modifier dans la bdd.
+      // - la liste de votes du ProfilClient à modifier dans la bdd : nouvelle entrée.  
 
   }
+
 
   // Angular Material
   filterStates(val: string) {
