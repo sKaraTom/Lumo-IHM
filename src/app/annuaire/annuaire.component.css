@@ -3,6 +3,7 @@
 #conteneurAnnuaire {
     background-color: #eee;
     width:100vw;
+    min-height:92vh;
 }
 
 #ligneRecherche {
@@ -49,6 +50,25 @@ color: #999;
   border: 1px solid #000000;
 }
 
+#ligneBoutonsCard {
+  display: flex;
+  align-content: center;
+  align-items: center;
+
+}
+
+#iconeCheckbox {
+  /* font-size:1.3em; */
+}
+
+#colCheckbox {
+  margin:0;
+  padding-right:0;
+  /* display: flex;
+  flex-direction: row; */
+  /* justify-content: center; */
+   /* border-style:groove; */
+}
 
 /* BOUTON LIKE  */
 .btn-circle {
@@ -65,15 +85,7 @@ color: #999;
  outline: none;
 }
 
-#iconeCheckbox {
-  /* font-size:1.3em; */
-}
 
-#colCheckbox {
-   margin:0;
-   padding-right:0;
-   /* border-style:groove; */
-}
 
 
 :host /deep/ .ui-autocomplete {

@@ -13,8 +13,14 @@
         <ul>
             <li *ngFor="let c of countries">{{c.name}}</li>
         </ul> -->
-         <p-autoComplete [(ngModel)]="saisieProfession" [suggestions]="filtreProfessions" (completeMethod)="filtrerProfessions($event)" [size]="30"
-        [minLength]="1" placeholder="sélectionner un département" [dropdown]="true" (onDropdownClick)="cliquerSurDropdownProfessions($event)">
+         <p-autoComplete [(ngModel)]="saisieDepartement" field="nom" [suggestions]="filtreDepartements" (completeMethod)="filtrerDepartements($event)" [size]="30"
+        [minLength]="1" placeholder="sélectionner un département" [dropdown]="true" (onDropdownClick)="cliquerDropdownDepartements($event)">
+            <ng-template let-departement pTemplate="item">
+                <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
+                    <div style="font-size:12px;float:left;margin:10px 10px 0 0">{{departement.nom}} ({{departement.numero}})</div>
+                </div>
+            </ng-template>
+
         </p-autoComplete>
         <!-- <span style="margin-left:50px">Profession : {{saisieProfession||'none'}}</span> -->
 
@@ -22,14 +28,14 @@
     
     <div class="col-md-5 col-sm-5 col-xs-12"> 
     <h4>Profession</h4>
-    <p-autoComplete [(ngModel)]="saisieProfession" [suggestions]="filtreProfessions" (completeMethod)="filtrerProfessions($event)" [size]="30"
-        [minLength]="1" placeholder="Sélectionner une profession" [dropdown]="true" (onDropdownClick)="cliquerSurDropdownProfessions($event)">
+    <p-autoComplete [(ngModel)]="saisieProfession" field="metier" [suggestions]="filtreProfessions" (completeMethod)="filtrerProfessions($event)" [size]="30"
+        [minLength]="1" placeholder="Sélectionner une profession" [dropdown]="true" (onDropdownClick)="cliquerDropdownProfessions($event)">
     </p-autoComplete>
     <!-- <span style="margin-left:50px">Profession : {{saisieProfession||'none'}}</span> -->
     </div>
 
     <!--ANGULAR MATERIAL  -->
-    <md-input-container>
+    <!-- <md-input-container>
         <input mdInput placeholder="Profession" [mdAutocomplete]="auto" [formControl]="stateCtrl">
     </md-input-container>
 
@@ -37,48 +43,49 @@
         <md-option *ngFor="let state of filteredStates | async" [value]="state">
              {{ state }}
         </md-option>
-    </md-autocomplete>
+    </md-autocomplete> -->
+    <button (click)="afficherSaisie()"> Afficher résultat</button>
+
+    <button (click)="chercherMembres()"> Afficher recherche</button>
 
  </div> 
 
-<!-- 
- <p-dataTable [value]="listeDepartements">
-    <p-column field="numero" header="numero"></p-column>
-    <p-column field="nom" header="nom"></p-column>
-</p-dataTable> -->
+    <pre>{{listeMembres | json }}</pre>
 
+
+    <!-- CARDS  -->
     <div class="row" id="ligneCards">
         
         <div class="col-xs-12 col-sm-4 col-md-4" *ngFor="let membre of listeMembres let index = index">
-            <div class="well well-sm" id="carteMembre" (click)="membre.estSelectionne= !membre.estSelectionne;selectionnerProfil(membre, membre.estSelectionne);"  [ngClass]="{'cardSelectionnee' : membre.estSelectionne}">
-                <div class="row">
+            <div class="well well-sm" id="carteMembre" [ngClass]="{'cardSelectionnee' : membre.estSelectionne}">
+                
+                <!-- LIGNE PROFIL MEMBRE  -->
+                <div class="row" (click)="membre.estSelectionne= !membre.estSelectionne;selectionnerProfil(membre, membre.estSelectionne);">
                     
-                    <!-- photo de profil -->
+                    <!-- Colonne photo de profil -->
                     <div class="col-sm-6 col-md-4">
                         <img [src]="membre.photo" alt="photo" class="img-rounded img-responsive" id="photoProfil"/>
                     </div>
 
-                    <!--nom prénom  -->
+                    <!-- Colonne infos Membre  -->
                     <div class="col-sm-6 col-md-8">
+                        <!--nom prénom  -->
                         <h4> {{membre.nom}} {{membre.prenom}}</h4>
                         
                         <!-- départements -->
                         <small >
-                            <!-- <cite title="San Francisco, USA"> -->
                                 <i class="glyphicon glyphicon-map-marker iconeCard"></i>
-                                <span *ngFor="let departement of membre.localisation"> {{departement.nom}} ({{departement.numero}})
+                                <span *ngFor="let departement of membre.listeDepartements"> {{departement.nom}} ({{departement.numero}})
                                 </span>
-                            <!-- </cite> -->
                         </small>
                         
-                        <!-- INFOS PROFIL  -->
                         <p> 
                             <!-- professions  -->
                             <i class="fa fa-desktop iconeCard" aria-hidden="true"></i>
-                            <span *ngFor="let profession of membre.professions let last=last;"> 
+                            <span *ngFor="let profession of membre.listeProfessions let last=last;"> 
                                 
-                                <span  *ngIf="!last"> {{profession.nomMetier}}, </span> 
-                                <span *ngIf="last">{{profession.nomMetier}} </span>
+                                <span  *ngIf="!last"> {{profession.metier}}, </span> 
+                                <span *ngIf="last">{{profession.metier}} </span>
                             </span>
                             <br />
                             
@@ -91,17 +98,19 @@
                             <span style="font-weight:bold;"> {{membre.compteurPopularite}} </span> votes
                         
                         </p>
+                    </div>
+                </div>
 
-                        <!-- LIGNE BOUTONS  -->
-                        <div class="row">
+                        <!-- LIGNE CHECKBOX BOUTONS FAVORI VOTE  -->
+                        <div class="row" id="ligneBoutonsCard" style="margin:0;">
                             
                             <!-- checkbox sélection de la carte  -->
-                            <div class="col-sm-7 col-md-7" id="colCheckbox">
+                            <div class="col-sm-7 col-md-7 col-xs-7" id="colCheckbox"  (click)="membre.estSelectionne= !membre.estSelectionne;selectionnerProfil(membre, membre.estSelectionne);">
                                 <span id="iconeCheckbox" class="glyphicon" [ngClass]="{ 'glyphicon-check' : membre.estSelectionne, ' glyphicon-unchecked' : !membre.estSelectionne }" aria-hidden="true"></span>
                                 CONTACTER
                             </div>
 
-                            <div class="col-sm-5  col-md-5" style="margin:0;text-align:end;padding-left:0;">
+                            <div class="col-sm-5  col-md-5 col-xs-5" style="margin:0;text-align:end;padding-left:0;">
                                 
                                 <!-- bouton voter  -->
                                 <button type="button" class="btn btn-default btn-circle" [disabled]="verifierSiVoteExistant(membre.uuid)" (click)="voter(membre,index);">
@@ -115,8 +124,8 @@
                             </div>
                         </div>
 
-                    </div>
-                </div>
+                    
+                
             </div>
         </div>
     </div>
