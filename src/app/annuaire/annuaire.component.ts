@@ -32,10 +32,10 @@ export class AnnuaireComponent implements OnInit {
 
   // sélection de la profession
   private listeProfessions: Profession[] = [];
-  private saisieProfession : string;
+  private saisieProfession : Profession;
   private filtreProfessions : Profession[] = [];
 
-
+  private rechercheSansResultat : String; 
 
   private listeMembresSelectionnes: Membre[];
   private listeMembres : Membre[];
@@ -285,11 +285,30 @@ export class AnnuaireComponent implements OnInit {
   }
 
 
+  /**
+   * chercher des membres à partir d'un département et d'une profession.
+   * l'uuid du membre connecté est envoyé pour le soustraire de la recherche.
+   * 
+   */
   private chercherMembres() : void {
-
-      this.membreService.chercherMembres("07",3,"26cbcd2f-f67f-4e21-a8fb-acaca3299c3f")
-          .subscribe(res => {console.dir(res); this.listeMembres = res},
-                      err => console.log(err._body));
+    
+    if(this.saisieDepartement && this.saisieProfession) {
+      this.membreService.chercherMembres(this.saisieDepartement.numero,this.saisieProfession.id,"cdc9a400-1d0c-419e-aa4e-9917f9bb6da7")
+          .subscribe(
+            res => {
+                if(res == 204) { 
+                    this.rechercheSansResultat = "Aucun résultat pour cette recherche."; 
+                    this.listeMembres = []; }
+                else { 
+                    this.listeMembres = res; 
+                    this.rechercheSansResultat = null; }
+            },
+            err => console.log(err._body));
+    }
+    else {
+        // mettre message d'erreur type growl.
+        console.log("le département et la profession doivent être renseignés.")
+    }                
   }
 
 

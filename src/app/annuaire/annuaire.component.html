@@ -4,9 +4,12 @@
 
 <!-- <h1 class="titre">Ici le titre et barre de recherche.</h1> -->
 
+ <!-- LIGNE RECHERCHE -->
  <div class="row well" id="ligneRecherche">
-    <div class="col-md-5 col-sm-5 col-xs-12"> 
-      <h4>Localisation</h4>
+    
+    <!-- COLONNE DEPARTEMENT  -->
+    <div class="col-md-3 col-sm-3 col-xs-12 colSaisies"> 
+        <h5 class="titreSaisie">Localisation</h5>
         <!-- <p-autoComplete [(ngModel)]="listeDepartementsSelectionnes" [suggestions]="listeDepartementsFiltres" (completeMethod)="filterCountryMultiple($event)" styleClass="wid100"
             [minLength]="1" placeholder="Localisation" field="nom" [multiple]="true">
         </p-autoComplete>
@@ -20,18 +23,25 @@
                     <div style="font-size:12px;float:left;margin:10px 10px 0 0">{{departement.nom}} ({{departement.numero}})</div>
                 </div>
             </ng-template>
-
         </p-autoComplete>
         <!-- <span style="margin-left:50px">Profession : {{saisieProfession||'none'}}</span> -->
 
-     </div>
+    </div>
     
-    <div class="col-md-5 col-sm-5 col-xs-12"> 
-    <h4>Profession</h4>
-    <p-autoComplete [(ngModel)]="saisieProfession" field="metier" [suggestions]="filtreProfessions" (completeMethod)="filtrerProfessions($event)" [size]="30"
-        [minLength]="1" placeholder="Sélectionner une profession" [dropdown]="true" (onDropdownClick)="cliquerDropdownProfessions($event)">
-    </p-autoComplete>
-    <!-- <span style="margin-left:50px">Profession : {{saisieProfession||'none'}}</span> -->
+     <!-- COLONNE PROFESSION  -->
+    <div class="col-md-3 col-sm-3 col-xs-12 colSaisies"> 
+        <h5 class="titreSaisie">Profession</h5>
+        <p-autoComplete [(ngModel)]="saisieProfession" field="metier" [suggestions]="filtreProfessions" (completeMethod)="filtrerProfessions($event)" [size]="30"
+            [minLength]="1" placeholder="Sélectionner une profession" [dropdown]="true" (onDropdownClick)="cliquerDropdownProfessions($event)">
+        </p-autoComplete>
+        <!-- <span style="margin-left:50px">Profession : {{saisieProfession||'none'}}</span> -->
+    </div>
+
+    <!-- COLONNE BOUTONS RECHERCHE  -->
+    <div class="col-md-4 col-sm-4 col-xs-12" id="colBtnRecherche"> 
+        <h5 id="cacheTitreBtnRecherche">_</h5>
+        <button type="button" class="btn btn-default btn-md" (click)="chercherMembres()" 
+        [disabled]="!saisieDepartement || !saisieProfession">Trouver des membres</button>
     </div>
 
     <!--ANGULAR MATERIAL  -->
@@ -44,17 +54,20 @@
              {{ state }}
         </md-option>
     </md-autocomplete> -->
-    <button (click)="afficherSaisie()"> Afficher résultat</button>
+
+
+ </div> 
+    
+ <!--ZONE DE TEST  -->
+    <!-- <button (click)="afficherSaisie()"> Afficher résultat</button>
 
     <button (click)="chercherMembres()"> Afficher recherche</button>
 
- </div> 
-
-    <pre>{{listeMembres | json }}</pre>
+    <pre>{{listeMembres | json }}</pre> -->
 
 
     <!-- CARDS  -->
-    <div class="row" id="ligneCards">
+    <div class="row" id="ligneCards" *ngIf="listeMembres">
         
         <div class="col-xs-12 col-sm-4 col-md-4" *ngFor="let membre of listeMembres let index = index">
             <div class="well well-sm" id="carteMembre" [ngClass]="{'cardSelectionnee' : membre.estSelectionne}">
@@ -123,13 +136,12 @@
                                 </button>
                             </div>
                         </div>
-
-                    
                 
             </div>
         </div>
-    </div>
+    </div> <!--  fermeture ligne card -->
 
+    <div *ngIf="rechercheSansResultat"> {{rechercheSansResultat}} </div>
 
 
 
