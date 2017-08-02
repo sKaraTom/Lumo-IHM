@@ -242,7 +242,7 @@ export class AnnuaireComponent implements OnInit {
 
   }
 
-  // ***********ZONE SELECTION DEPARTEMENT**********
+  // ***********ZONE SELECTION PROFESSION **********
 
   /**
    * obtenir la liste de toutes les professions
@@ -253,7 +253,6 @@ export class AnnuaireComponent implements OnInit {
       this.professionService.obtenirTousDepartements()
           .subscribe(res => this.listeProfessions = res,
                       err => console.log(err._body));
-
   }
   
   /**
@@ -284,6 +283,7 @@ export class AnnuaireComponent implements OnInit {
         }, 10);
   }
 
+//   *****************************
 
   /**
    * chercher des membres à partir d'un département et d'une profession.

@@ -17,11 +17,12 @@ import { DepartementService } from "./services/departement.service";
 import { ProfessionService } from "./services/profession.service";
 
 // primeng
-import { ChipsModule, DropdownModule, DataTableModule, SharedModule, AutoCompleteModule, InputTextModule } from 'primeng/primeng';
+import { ChipsModule, DropdownModule, SharedModule, AutoCompleteModule, InputTextModule, FileUploadModule } from 'primeng/primeng';
 
 // Angular-Material
 import { MdAutocompleteModule, MdInputModule } from '@angular/material';
 import { MembreService } from "./services/membre.service";
+import { InscriptionComponent } from './inscription/inscription.component';
 
 
 
@@ -35,11 +36,12 @@ import { MembreService } from "./services/membre.service";
     PageNotFoundComponent,
     AnnuaireComponent,
     PublicationOffreComponent,
+    InscriptionComponent,
   ],
   imports: [
-    MdAutocompleteModule,MdInputModule, // bloc Angular Material
-    DataTableModule,SharedModule, // pour tests, à supprimer
-    InputTextModule,DropdownModule,ChipsModule,AutoCompleteModule, // bloc primeng
+    MdAutocompleteModule,MdInputModule, // Angular Material
+    SharedModule, // pour tests, à supprimer
+    InputTextModule,DropdownModule,ChipsModule,AutoCompleteModule,FileUploadModule, // primeng
     ReactiveFormsModule,
     HttpModule,
     FormsModule,
