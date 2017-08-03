@@ -19,7 +19,7 @@ export class ProfessionService {
    * 
    * @return Profession[]
    */
-  public obtenirTousDepartements() : Observable<Profession[]> {
+  public obtenirToutesProfessions() : Observable<Profession[]> {
 
     const url = `${this.urlLumo +"profession"}`;
     

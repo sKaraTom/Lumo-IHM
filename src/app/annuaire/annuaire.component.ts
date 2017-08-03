@@ -136,8 +136,10 @@ export class AnnuaireComponent implements OnInit {
         "photo":"../../assets/wedding-photographer-portrait.jpg",
         "nom":"nom 0",
         "prenom" : "prenom 0",
-        "professions": this.listeProfessions,
-        "localisation": this.listeDepartements,
+        "listeProfessions": this.listeProfessions,
+        "listeDepartements": this.listeDepartements,
+        "listeVotes": [],
+        "listeFavoris":[],
         "compteurPopularite" : 0,
         "urlSite" : "http://www.yahoo.fr"
       }];
@@ -195,16 +197,47 @@ export class AnnuaireComponent implements OnInit {
 
   // ***********ZONE SELECTION DEPARTEMENT**********
   
-  /**
-   * obtenir la liste de tous les départements
-   * remplit  listeDepartements : Departement[] avec le résultat.
-   */
-  private obtenirListeDepartements() : void {
+ /**
+ * obtenir la liste de tous les départements et l'attribuer à listeDepartements : Departement[].
+ * - Si début de session récupérer la liste depuis le serveur.
+ * - Sinon récupère la liste depuis ce sessionStorage.
+ * charger listeDepartements[].
+ */
+private obtenirListeDepartements() : void {
 
-    this.departementService.obtenirTousDepartements()
-        .subscribe( res => this.listeDepartements = res,
-                    err => console.log(err._body));
-  }
+    if(!sessionStorage.getItem('departements')) {
+        console.log("obtenirDepartements MW");
+        this.departementService.obtenirTousDepartements()
+            .subscribe( res => this.listeDepartements = res,
+                    err => console.log(err._body),
+                    () => sessionStorage.setItem('departements',JSON.stringify(this.listeDepartements))
+        )
+    }
+    else {
+       this.listeDepartements = JSON.parse(sessionStorage.getItem('departements'));
+    }
+}
+
+/**
+ * obtenir la liste de toutes les professions
+ * - Si début de session récupérer la liste depuis le serveur.
+ * - Sinon récupère la liste depuis ce sessionStorage.
+ * charger listeProfessions[].
+ * 
+ */
+private obtenirListeProfessions() : void {
+       if(!sessionStorage.getItem('professions')) {
+            console.log("obtenirProfessions MW");
+            this.professionService.obtenirToutesProfessions()
+            .subscribe(res => this.listeProfessions = res,
+                        err => console.log(err._body),
+                        () => sessionStorage.setItem('professions',JSON.stringify(this.listeProfessions)) 
+                    )
+        }
+        else {
+        this.listeProfessions = JSON.parse(sessionStorage.getItem('professions'));
+        }
+}
 
   /**
    * filtrer la liste des départements en fonction de la saisie
@@ -215,7 +248,6 @@ export class AnnuaireComponent implements OnInit {
       this.filtreDepartements = [];
 
       let query = event.query;
-      console.log(query);
 
       for(let i = 0; i < this.listeDepartements.length; i++) {
           let departement = this.listeDepartements[i];
@@ -223,7 +255,27 @@ export class AnnuaireComponent implements OnInit {
           if(departement.nom.toLowerCase().indexOf(query.toLowerCase()) == 0) {
               this.filtreDepartements.push(departement);
           }
+          else if(departement.numero.indexOf(query) == 0) {
+            this.filtreDepartements.push(departement); 
+          }
       }
+  }
+  
+    
+  /**
+   * filtrer la liste des professions en fonction de la saisie
+   * 
+   * @param event récupérer en temps réel la saisie
+   */
+  private filtrerProfessions(event) : void {
+        this.filtreProfessions = [];
+        
+        for(let i = 0; i < this.listeProfessions.length; i++) {
+            let profession = this.listeProfessions[i];
+            if(profession.metier.toLowerCase().indexOf(event.query.toLowerCase()) == 0) {
+                this.filtreProfessions.push(profession);
+            }
+        }
   }
 
   /**
@@ -240,35 +292,6 @@ export class AnnuaireComponent implements OnInit {
           this.filtreDepartements = this.listeDepartements;
       }, 10)
 
-  }
-
-  // ***********ZONE SELECTION PROFESSION **********
-
-  /**
-   * obtenir la liste de toutes les professions
-   * charge ListeProfessions : Profession[] avec le résultat
-   * 
-   */
-  private obtenirListeProfessions() : void {
-      this.professionService.obtenirTousDepartements()
-          .subscribe(res => this.listeProfessions = res,
-                      err => console.log(err._body));
-  }
-  
-  /**
-   * filtrer la liste des professions en fonction de la saisie
-   * 
-   * @param event récupérer en temps réel la saisie
-   */
-  private filtrerProfessions(event) : void {
-        this.filtreProfessions = [];
-        
-        for(let i = 0; i < this.listeProfessions.length; i++) {
-            let profession = this.listeProfessions[i];
-            if(profession.metier.toLowerCase().indexOf(event.query.toLowerCase()) == 0) {
-                this.filtreProfessions.push(profession);
-            }
-        }
   }
   
   /**

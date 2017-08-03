@@ -1,4 +1,7 @@
 
+:host /deep/ .ui-growl {
+   z-index:99999999999 !important;
+}
 
 #photoParDefaut {
     
@@ -66,4 +69,41 @@
     color:white;
     border : none;
     border-radius:2px; 
+}
+
+#ligneBadgesDepartements {
+    /* display: inline-block;   */
+}
+
+.labelsCaches {
+    visibility: hidden;
+    padding:5px;
+}
+
+.badge {
+    cursor: pointer;
+    color:white;
+    border-radius:15px;
+    margin: 1px 3px;
+    /* word-wrap: unset; */
+    /* white-space: nowrap; */
+}
+
+#badgeDepartement {
+    display: inline-block; 
+    background-color: #7a987e;
+    padding: 5px 5px;
+}
+
+#badgeProfession {
+    background-color: #4b96c7;
+    padding: 5px 5px;
+}
+
+@media screen and (max-width: 768px) {
+
+    .labelsCaches {
+    
+        display: none;
+    }
 }

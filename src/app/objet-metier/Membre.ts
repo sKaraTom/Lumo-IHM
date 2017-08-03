@@ -18,7 +18,7 @@ export class Membre {
     public compteurPopularite:number;
     public listeVotes:String[];
 
-    public listeFavoris:ProfilPublic[];
+    public listeFavoris:Membre[];
 
 
 

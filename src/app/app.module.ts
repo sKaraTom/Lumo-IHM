@@ -17,10 +17,10 @@ import { DepartementService } from "./services/departement.service";
 import { ProfessionService } from "./services/profession.service";
 
 // primeng
-import { ChipsModule, DropdownModule, SharedModule, AutoCompleteModule, InputTextModule, FileUploadModule } from 'primeng/primeng';
+import { ChipsModule, DropdownModule, SharedModule, AutoCompleteModule, InputTextModule, FileUploadModule, GrowlModule } from 'primeng/primeng';
 
 // Angular-Material
-import { MdAutocompleteModule, MdInputModule } from '@angular/material';
+import { MdAutocompleteModule, MdInputModule, MdTooltipModule } from '@angular/material';
 import { MembreService } from "./services/membre.service";
 import { InscriptionComponent } from './inscription/inscription.component';
 
@@ -39,9 +39,10 @@ import { InscriptionComponent } from './inscription/inscription.component';
     InscriptionComponent,
   ],
   imports: [
-    MdAutocompleteModule,MdInputModule, // Angular Material
+    MdAutocompleteModule,MdInputModule,MdTooltipModule, // Angular Material
     SharedModule, // pour tests, à supprimer
-    InputTextModule,DropdownModule,ChipsModule,AutoCompleteModule,FileUploadModule, // primeng
+    InputTextModule,DropdownModule,ChipsModule,AutoCompleteModule,FileUploadModule,
+    GrowlModule, // primeng
     ReactiveFormsModule,
     HttpModule,
     FormsModule,

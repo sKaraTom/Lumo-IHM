@@ -1,6 +1,9 @@
 
+<p-growl [(value)]="msgs"></p-growl>
+
 
 <div class="container">
+
   <div class="row page-header">
   
     <div class="col-md-12 col-sm-12 col-xs-12" style="background-color: #eee;">
@@ -122,23 +125,49 @@
 
         <!-- Sélection départements  -->
         <div class="form-group">
-          <label class="col-lg-3 control-label">Localisation:</label>
+          <label class="col-lg-3 control-label">Localisation*:</label>
           <div class="col-lg-9">
-            <p-autoComplete id="inputDepartements" #departement name="departement" #departement="ngModel" ngModel [(ngModel)]="saisieDepartement" field="nom" [suggestions]="filtreDepartements" (completeMethod)="filtrerDepartements($event)" [size]="30" (onSelect)="departementsSelectionnes.push(saisieDepartement);"
-            [minLength]="1" placeholder="sélectionner jusqu'à 3 départements" [dropdown]="true" (onDropdownClick)="cliquerDropdownDepartements($event)" emptyMessage="aucun département ne correspond à votre saisie.">
+            <p-autoComplete id="inputDepartements" #departement name="departement" #departement="ngModel" ngModel [(ngModel)]="saisieDepartement" field="nom" [suggestions]="filtreDepartements" (completeMethod)="filtrerDepartements($event)" [size]="30" (onSelect)="selectionnerDepartement();"
+            [minLength]="1" placeholder="Sélectionnez jusqu'à 3 départements" [dropdown]="true" (onDropdownClick)="cliquerDropdownDepartements($event)" emptyMessage="aucun département ne correspond à votre saisie." [disabled]="limiterSelections(departementsSelectionnes)" required>
                 <ng-template let-departement pTemplate="item">
                     <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
                         <div style="font-size:12px;float:left;margin:10px 10px 0 0">{{departement.nom}} ({{departement.numero}})</div>
                     </div>
                 </ng-template>
             </p-autoComplete>
-            <!-- <span style="margin-left:50px">Profession : {{saisieProfession||'none'}}</span> -->
-            <ul>
-              <li *ngFor="let departement of departementsSelectionnes">{{departement.nom}}</li>
-          </ul>
           </div>
         </div>
 
+        <!-- Badges départements  -->
+        <div class="form-group">
+            <label class="col-lg-3 control-label labelsCaches">rayon d'activité:</label>
+            <div class="col-lg-9" id="ligneBadgesDepartements">
+              <span id="badgeDepartement" class="badge" *ngFor="let departement of departementsSelectionnes" (click)="retirerDepartement(departement);">{{departement.nom}} <i class="fa fa-times" aria-hidden="true"></i> </span>
+            </div>
+        </div>
+
+         <!-- Sélection professions  -->
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Profession(s)*:</label>
+          <div class="col-lg-9">
+            <p-autoComplete id="inputDepartements" #profession name="profession" #profession="ngModel" ngModel [(ngModel)]="saisieProfession" field="metier" [suggestions]="filtreProfessions" (completeMethod)="filtrerProfessions($event)" [size]="30" (onSelect)="selectionnerProfession();"
+            [minLength]="1" placeholder="Sélectionnez jusqu'à 3 professions" [dropdown]="true" (onDropdownClick)="cliquerDropdownProfessions($event)" emptyMessage="aucune profession ne correspond à votre saisie." [disabled]="limiterSelections(professionsSelectionnees)" required>
+                <!-- <ng-template let-profession pTemplate="item">
+                    <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
+                        <div style="font-size:12px;float:left;margin:10px 10px 0 0">{{profession.metier}}</div>
+                    </div>
+                </ng-template> -->
+            </p-autoComplete>
+          </div>
+        </div>
+
+        <!-- Badges professions  -->
+        <div class="form-group">
+            <label class="col-lg-3 control-label labelsCaches">professions:</label>
+            <div class="col-lg-9" id="ligneBadgesDepartements">
+              <span id="badgeProfession" class="badge" *ngFor="let profession of professionsSelectionnees" (click)="retirerProfessionSelectionnee(profession);">{{profession.metier}} <i class="fa fa-times" aria-hidden="true"></i> </span>
+            </div>
+        </div>
     
         <div class="form-group">
           <label class="col-lg-3 control-label">Time Zone:</label>
@@ -162,7 +191,7 @@
           <div class="col-md-8">
             <input class="btn btn-default btnLumo" value="Enregistrer" type="submit">
             <span></span>
-            <input class="btn btn-default btnLumo" value="Annuler" type="reset">
+            <input class="btn btn-default btnLumo" value="Annuler" type="reset" (click)="annulerInscription();">
           </div>
         </div>
       </form>

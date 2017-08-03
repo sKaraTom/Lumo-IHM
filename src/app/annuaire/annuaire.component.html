@@ -34,7 +34,6 @@
         <p-autoComplete [(ngModel)]="saisieProfession" field="metier" [suggestions]="filtreProfessions" (completeMethod)="filtrerProfessions($event)" [size]="30"
             [minLength]="1" placeholder="Sélectionner une profession" [dropdown]="true" (onDropdownClick)="cliquerDropdownProfessions($event)" emptyMessage="aucune profession ne correspond à votre saisie.">
         </p-autoComplete>
-        <!-- <span style="margin-left:50px">Profession : {{saisieProfession||'none'}}</span> -->
     </div>
 
     <!-- COLONNE BOUTONS RECHERCHE  -->
@@ -126,13 +125,13 @@
                             <div class="col-sm-5  col-md-5 col-xs-5" style="margin:0;text-align:end;padding-left:0;">
                                 
                                 <!-- bouton voter  -->
-                                <button type="button" class="btn btn-default btn-circle" [disabled]="verifierSiVoteExistant(membre.uuid)" (click)="voter(membre,index);">
+                                <button type="button" class="btn btn-default btn-circle" [disabled]="verifierSiVoteExistant(membre.uuid)" (click)="voter(membre,index);" mdTooltip="Voter pour ce membre">
                                     <i class="glyphicon glyphicon-thumbs-up"></i>
                                 </button>
                                 
                                 <!-- bouton ajouter favori  -->
                                 <button type="button" class="btn btn-default btn-circle" [ngClass]="{ 'favori' : verifierSiFavori(membre.uuid), 'nonFavori' : !verifierSiFavori(membre.uuid) }">
-                                    <i class="glyphicon glyphicon glyphicon-star-empty"></i>
+                                    <i class="glyphicon glyphicon glyphicon-star-empty" mdTooltip="Ajouter ce membre à vos favoris"></i>
                                 </button>
                             </div>
                         </div>

@@ -46,3 +46,9 @@ button:hover {
   border: 0.1em solid #000000;
   outline:none;
 }
+
+
+
+@media screen and (max-width: 768px) {
+
+}
