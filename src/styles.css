@@ -1,16 +1,17 @@
 
 
 html {
-  position: relative;
-  min-height: 100%;
+   position: relative; 
+  min-height: 100%;  
+  /* border-style:dashed;  */
 }
 
 body {
   /* Margin bottom by footer height */
-  margin-top : 65px;
+   margin-top : 65px; 
    /* margin-bottom: 5vh;  */
    /* background-color:red;  */
-   /* border-style:dashed; */
+    /* border-style:dashed;  */
 }
 
 h1 {

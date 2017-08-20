@@ -15,6 +15,7 @@ import { PublicationOffreComponent } from './publication-offre/publication-offre
 
 import { DepartementService } from "./services/departement.service";
 import { ProfessionService } from "./services/profession.service";
+import { CompteService } from "./services/compte.service";
 
 // primeng
 import { ChipsModule, DropdownModule, SharedModule, AutoCompleteModule, InputTextModule, FileUploadModule, GrowlModule } from 'primeng/primeng';
@@ -23,9 +24,6 @@ import { ChipsModule, DropdownModule, SharedModule, AutoCompleteModule, InputTex
 import { MdAutocompleteModule, MdInputModule, MdTooltipModule } from '@angular/material';
 import { MembreService } from "./services/membre.service";
 import { InscriptionComponent } from './inscription/inscription.component';
-
-
-
 
 
 @NgModule({
@@ -51,7 +49,7 @@ import { InscriptionComponent } from './inscription/inscription.component';
     BrowserAnimationsModule,
     AppRoutingModule
   ],
-  providers: [DepartementService,ProfessionService, MembreService],
+  providers: [CompteService,DepartementService,ProfessionService, MembreService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

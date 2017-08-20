@@ -43,17 +43,6 @@
         [disabled]="!saisieDepartement || !saisieProfession">Trouver des membres</button>
     </div>
 
-    <!--ANGULAR MATERIAL  -->
-    <!-- <md-input-container>
-        <input mdInput placeholder="Profession" [mdAutocomplete]="auto" [formControl]="stateCtrl">
-    </md-input-container>
-
-    <md-autocomplete #auto="mdAutocomplete">
-        <md-option *ngFor="let state of filteredStates | async" [value]="state">
-             {{ state }}
-        </md-option>
-    </md-autocomplete> -->
-
 
  </div> 
     
@@ -102,7 +91,7 @@
                             <br />
                             
                             <!-- site web  -->
-                            <i class="glyphicon glyphicon-globe iconeCard"></i><a [href]="membre.urlSite" target="_blank">{{membre.urlSite}}</a>
+                            <i class="glyphicon glyphicon-globe iconeCard"></i><a [href]="'http://' + membre.urlSite" target="_blank">{{membre.urlSite}}</a>
                             <br />
 
                             <!-- compteur popularité  -->

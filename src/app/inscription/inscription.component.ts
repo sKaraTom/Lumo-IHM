@@ -5,10 +5,9 @@ import { DepartementService } from "../services/departement.service";
 import { Message } from "primeng/primeng";
 import { Profession } from "../objet-metier/profession";
 import { ProfessionService } from "../services/profession.service";
-import { Observable } from "rxjs/Observable";
-import 'rxjs/add/observable/of';
 import { Compte } from "../objet-metier/compte";
 import { Membre } from "../objet-metier/Membre";
+import { CompteService } from "../services/compte.service";
 
 @Component({
   selector: 'app-inscription',
@@ -17,10 +16,17 @@ import { Membre } from "../objet-metier/Membre";
 })
 export class InscriptionComponent implements OnInit,AfterViewChecked {
 
+  // message d'erreur password;  
+  private erreurPassword : string;
+  // message d'erreur général.
+  private erreurFormulaire : string;
+  // message succès création de compte.  
+  private succesFormulaire : string;
+
   // sélection du département
   private listeDepartements : Departement[] = [];
   private saisieDepartement: Departement;
-  private filtreDepartements : any[];
+  private filtreDepartements : Departement[];
   private departementsSelectionnes : Departement[] = [];
 
   // sélection de la profession
@@ -38,7 +44,8 @@ export class InscriptionComponent implements OnInit,AfterViewChecked {
   msgs: Message[] = [];
 
 
-  constructor(private departementService:DepartementService,
+  constructor( private compteService:CompteService,
+            private departementService:DepartementService,
             private professionService:ProfessionService,
             private changeDetectionRef : ChangeDetectorRef) { 
         
@@ -62,44 +69,114 @@ export class InscriptionComponent implements OnInit,AfterViewChecked {
 
 private creerCompte(form:NgForm) : void {
 
-  // vérifier : 
-  // 2 passwords égaux, formulaire valide
-  //  
+  if (this.validerFormulaire(form)) {
 
-  let compte = new Compte();
+    let compte = new Compte();
 
-  compte.email = form.value.email;
-  compte.password = form.value.mdp;
-  
-  let membre = new Membre();
-  membre.nom = form.value.nom;
-  membre.prenom = form.value.prenom;
-  membre.urlSite = form.value.url;
-  membre.photo = "../../assets/wedding-photographer-portrait.jpg"; // à revoir
-  membre.compteurPopularite = 0;
-  membre.listeDepartements = this.departementsSelectionnes;
-  membre.listeProfessions = this.professionsSelectionnees;
-  membre.listeFavoris = [];
-  membre.listeVotes = [];
+    compte.email = form.value.email;
+    compte.password = form.value.mdp;
+    
+    let membre = new Membre();
+    membre.nom = form.value.nom;
+    membre.prenom = form.value.prenom;
+    membre.urlSite = form.value.url;
+    membre.photo = "../../assets/wedding-photographer-portrait.jpg"; // à revoir
+    membre.compteurPopularite = 0;
+    membre.listeDepartements = this.departementsSelectionnes;
+    membre.listeProfessions = this.professionsSelectionnees;
+    membre.listeFavoris = [];
+    membre.listeVotes = [];
 
-  compte.membre = membre;
+    compte.membre = membre;
 
-  console.dir(compte);
+    console.dir(compte);
+
+    this.compteService.creerCompte(compte)
+        .subscribe(res => {  this.succesFormulaire = "vous faites désormais partie du Club The Light Studios. Connectez-vous pour contacter d'autres membres, consulter les offres ou en publier.";
+        // réinitialiser le formulaire si succès.
+        form.reset();
+        this.reinitialiserFormulaire();
+        },
+        err => {this.erreurFormulaire=err._body;} );
+
+   
+  }
 
 }
 
+/**
+ * méthode globale de validation du formulaire.
+ * 
+ * @param form le formulaire saisi
+ * @return booléen true si la validation est ok.
+ */
+private validerFormulaire(form:NgForm) : boolean {
+    
+    if (form.invalid) {
+        this.erreurFormulaire = "tous les champs suivis d'une astérisque * doivent être renseignés.";
+        return false;
+    }
+
+    else if(this.departementsSelectionnes.length == 0 || this.departementsSelectionnes == null) {
+        this.erreurFormulaire = "departements : tous les champs suivis d'une astérisque * doivent être renseignés.";
+        return false;
+    }
+
+    else if(this.professionsSelectionnees.length == 0 || this.professionsSelectionnees == null) {
+        this.erreurFormulaire = "professions : tous les champs suivis d'une astérisque * doivent être renseignés.";
+        return false;
+    }
+
+    else if (!this.validerPassword(form)) {
+        return false;
+    }
+
+
+    else {
+        return true;
+    }
+}
+
+/**
+ * valider le password et sa confirmation.
+ * 
+ * @param form le formulaire contenant les passwords saisis.
+ * @return booleen
+ */
+private validerPassword(form:NgForm) : boolean {
+
+    let password = form.value.mdp;
+    let passwordConfirmation = form.value.mdpConfirm;
+
+    if (password !== passwordConfirmation) {
+        this.erreurPassword = "les deux champs de mot de passe doivent correspondre.";
+        return false;
+    }
+
+    else if (password.length < 4) {
+        this.erreurFormulaire = "le mot de passe doit contenir au minimum 4 caractères.";
+    }
+
+    else {
+    return true;
+    }
+}
 
 /**
  * Annuler l'inscription : reset complet du formulaire.
  * vider les listes de départements/professions sélectionnées.
  * réinitialiser les listes complètes de départements/professions depuis le sessionStorage.
  */
-private annulerInscription() : void {
+private reinitialiserFormulaire() : void {
     this.departementsSelectionnes=[];
     this.professionsSelectionnees=[];
 
     this.listeProfessions = JSON.parse(sessionStorage.getItem('professions'));
     this.listeDepartements = JSON.parse(sessionStorage.getItem('departements'));
+
+    this.erreurPassword = null;
+    this.erreurFormulaire = null;
+
 }
 
 
@@ -284,7 +361,13 @@ private selectionnerDepartement() : void {
     }
 
     else {
-        this.departementsSelectionnes.push(this.saisieDepartement);
+        // création d'une variable departementSelectionne pour contourner le problème de _$visited
+        // ajouté à l'objet saisieDepartement (bug primeng).
+        let departementSelectionne = new Departement();
+        departementSelectionne.nom = this.saisieDepartement.nom;
+        departementSelectionne.numero = this.saisieDepartement.numero;
+        
+        this.departementsSelectionnes.push(departementSelectionne);
         this.listeDepartements = this.listeDepartements.filter(item => item != this.saisieDepartement);
     }
 
