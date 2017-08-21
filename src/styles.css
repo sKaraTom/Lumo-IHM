@@ -3,15 +3,13 @@
 html {
    position: relative; 
   min-height: 100%;  
-  /* border-style:dashed;  */
+   /* border-style:dashed; */
 }
 
 body {
-  /* Margin bottom by footer height */
-   margin-top : 65px; 
-   /* margin-bottom: 5vh;  */
-   /* background-color:red;  */
-    /* border-style:dashed;  */
+  margin-top : 65px; 
+  /* margin-bottom: 5vh;  */
+  /* border-style:dashed; */
 }
 
 h1 {
@@ -46,6 +44,10 @@ button:hover {
   color:black;
   border: 0.1em solid #000000;
   outline:none;
+}
+
+.jumbotron {
+  background-color:#eee;
 }
 
 

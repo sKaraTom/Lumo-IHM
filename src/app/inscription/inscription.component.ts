@@ -393,7 +393,12 @@ private selectionnerProfession() : void {
     }
 
     else {
-        this.professionsSelectionnees.push(this.saisieProfession);
+         // création d'une variable professionSelectionnee pour contourner le problème de _$visited
+        // ajouté à l'objet saisieProfession (bug primeng).
+        let professionSelectionnee = new Profession();
+        professionSelectionnee.id = this.saisieProfession.id;
+        professionSelectionnee.metier = this.saisieProfession.metier;
+        this.professionsSelectionnees.push(professionSelectionnee);
         this.listeProfessions = this.listeProfessions.filter(item => item != this.saisieProfession);
     }
 

@@ -24,6 +24,7 @@ import { ChipsModule, DropdownModule, SharedModule, AutoCompleteModule, InputTex
 import { MdAutocompleteModule, MdInputModule, MdTooltipModule } from '@angular/material';
 import { MembreService } from "./services/membre.service";
 import { InscriptionComponent } from './inscription/inscription.component';
+import { AccueilProspectComponent } from './accueil/accueil-prospect/accueil-prospect.component';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { InscriptionComponent } from './inscription/inscription.component';
     AnnuaireComponent,
     PublicationOffreComponent,
     InscriptionComponent,
+    AccueilProspectComponent,
   ],
   imports: [
     MdAutocompleteModule,MdInputModule,MdTooltipModule, // Angular Material

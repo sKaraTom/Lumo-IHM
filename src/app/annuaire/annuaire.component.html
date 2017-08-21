@@ -17,7 +17,7 @@
             <li *ngFor="let c of countries">{{c.name}}</li>
         </ul> -->
          <p-autoComplete [(ngModel)]="saisieDepartement" field="nom" [suggestions]="filtreDepartements" (completeMethod)="filtrerDepartements($event)" [size]="30"
-        [minLength]="1" placeholder="sélectionner un département" [dropdown]="true" (onDropdownClick)="cliquerDropdownDepartements($event)" emptyMessage="aucun département ne correspond à votre saisie.">
+        [minLength]="1" placeholder="Sélectionner un département" [dropdown]="true" (onDropdownClick)="cliquerDropdownDepartements($event)" emptyMessage="aucun département ne correspond à votre saisie.">
             <ng-template let-departement pTemplate="item">
                 <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
                     <div style="font-size:12px;float:left;margin:10px 10px 0 0">{{departement.nom}} ({{departement.numero}})</div>

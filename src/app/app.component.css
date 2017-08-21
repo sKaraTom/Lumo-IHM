@@ -2,9 +2,13 @@
 #contenuPage {
    /* border-style:dashed;  */
   min-height:87vh;
-  margin-bottom:4vh;
+   margin-bottom:3.7vh; 
+
 }
 
+.container {
+  padding:0;
+}
 
 .footer {
   position: absolute;
@@ -12,8 +16,11 @@
   width: 100%;
   height: 4vh;
   background-color: #e4e4e4;
-  padding-bottom: 0;
-  /* margin:0; */
-  border-style:dashed;
+}
+
+#texteCopyright {
+  padding:0; 
+  margin:0;
+  /* border-style:dashed; */
 
 }
