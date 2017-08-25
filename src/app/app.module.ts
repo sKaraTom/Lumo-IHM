@@ -25,6 +25,7 @@ import { MdAutocompleteModule, MdInputModule, MdTooltipModule } from '@angular/m
 import { MembreService } from "./services/membre.service";
 import { InscriptionComponent } from './inscription/inscription.component';
 import { AccueilProspectComponent } from './accueil/accueil-prospect/accueil-prospect.component';
+import { ConnexionComponent } from './connexion/connexion.component';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { AccueilProspectComponent } from './accueil/accueil-prospect/accueil-pro
     PublicationOffreComponent,
     InscriptionComponent,
     AccueilProspectComponent,
+    ConnexionComponent,
   ],
   imports: [
     MdAutocompleteModule,MdInputModule,MdTooltipModule, // Angular Material
