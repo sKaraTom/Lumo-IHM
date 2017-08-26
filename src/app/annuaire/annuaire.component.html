@@ -10,14 +10,8 @@
     <!-- COLONNE DEPARTEMENT  -->
     <div class="col-md-3 col-sm-3 col-xs-12 colSaisies"> 
         <h5 class="titreSaisie">Localisation</h5>
-        <!-- <p-autoComplete [(ngModel)]="listeDepartementsSelectionnes" [suggestions]="listeDepartementsFiltres" (completeMethod)="filterCountryMultiple($event)" styleClass="wid100"
-            [minLength]="1" placeholder="Localisation" field="nom" [multiple]="true">
-        </p-autoComplete>
-        <ul>
-            <li *ngFor="let c of countries">{{c.name}}</li>
-        </ul> -->
-         <p-autoComplete [(ngModel)]="saisieDepartement" field="nom" [suggestions]="filtreDepartements" (completeMethod)="filtrerDepartements($event)" [size]="30"
-        [minLength]="1" placeholder="Sélectionner un département" [dropdown]="true" (onDropdownClick)="cliquerDropdownDepartements($event)" emptyMessage="aucun département ne correspond à votre saisie.">
+        <p-autoComplete [(ngModel)]="saisieDepartement" field="nom" [suggestions]="filtreDepartements" (completeMethod)="filtrerDepartements($event)" [size]="30"
+        [minLength]="1" placeholder="Sélectionner un département" [dropdown]="true" (onDropdownClick)="cliquerDropdownDepartements()" emptyMessage="aucun département ne correspond à votre saisie.">
             <ng-template let-departement pTemplate="item">
                 <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
                     <div style="font-size:12px;float:left;margin:10px 10px 0 0">{{departement.nom}} ({{departement.numero}})</div>
@@ -32,7 +26,7 @@
     <div class="col-md-3 col-sm-3 col-xs-12 colSaisies"> 
         <h5 class="titreSaisie">Profession</h5>
         <p-autoComplete [(ngModel)]="saisieProfession" field="metier" [suggestions]="filtreProfessions" (completeMethod)="filtrerProfessions($event)" [size]="30"
-            [minLength]="1" placeholder="Sélectionner une profession" [dropdown]="true" (onDropdownClick)="cliquerDropdownProfessions($event)" emptyMessage="aucune profession ne correspond à votre saisie.">
+            [minLength]="1" placeholder="Sélectionner une profession" [dropdown]="true" (onDropdownClick)="cliquerDropdownProfessions()" emptyMessage="aucune profession ne correspond à votre saisie.">
         </p-autoComplete>
     </div>
 
@@ -47,10 +41,7 @@
  </div> 
     
  <!--ZONE DE TEST  -->
-    <!-- <button (click)="afficherSaisie()"> Afficher résultat</button>
-
-    <button (click)="chercherMembres()"> Afficher recherche</button>
-
+    <!-- 
     <pre>{{listeMembres | json }}</pre> -->
 
 

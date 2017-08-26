@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AccueilMembreComponent implements OnInit {
 
+  prenomMembre : String;
+
   constructor() { }
 
   ngOnInit() {
+
+    this.prenomMembre = localStorage.getItem('prenom');
+
+
   }
 
 }

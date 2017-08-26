@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/Rx';
 
 import { Compte } from "../objet-metier/compte";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class CompteService {
@@ -21,7 +22,7 @@ export class CompteService {
 
 
 
-  constructor(private http: Http) {
+  constructor(private http: Http,private router: Router) {
 
     this.idClient = localStorage.getItem('id');
     this.idClientSource.next(localStorage.getItem('id'));
@@ -58,6 +59,8 @@ export class CompteService {
                 localStorage.setItem('id',id);
                 localStorage.setItem('prenom',data.json().prenom);
 
+                console.dir(data);
+
                 return data.json();
 
               }
@@ -70,6 +73,7 @@ export class CompteService {
       this.idClient = null;
       this.idClientSource.next('');
       localStorage.clear();
+      this.router.navigate(['/accueil']);
 
   }
   

@@ -327,7 +327,7 @@ private cliquerDropdownDepartements(event) : void {
 
       setTimeout(() => {
           this.filtreDepartements = this.listeDepartements;
-      }, 10)
+      }, 10);
 }
 
 /**

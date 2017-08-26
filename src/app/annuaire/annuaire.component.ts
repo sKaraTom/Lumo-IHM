@@ -39,80 +39,6 @@ export class AnnuaireComponent implements OnInit {
 
   private listeMembresSelectionnes: Membre[];
   private listeMembres : Membre[];
-  
-  // private listeProfessions : Profession[] = [
-  //   {"id" : 1, "nomMetier":"photographie"},
-  //   {"id" : 2,"nomMetier":"retouche photo"},
-  //   {"id" : 3,"nomMetier":"maquillage"},
-  // ];
-
-  // autocomplete PROFESSION
-  private listeToutesProfessions = ["Photographie","Retouche","Maquillage","Coiffure","Stylisme","Cadreuse/cadreuse","Montage vidéo","Ingénieur(e) son","Etalonnage"];
-  
-
-  private listeVilles: SelectItem[];
-
-    country: any;
-    countries: any[]
-    filteredCountriesSingle: any[];
-    filteredCountriesMultiple: any[];
-
-    // Angular Material
-    stateCtrl: FormControl;
-    filteredStates: any;
-
-     states = [
-    'Alabama',
-    'Alaska',
-    'Arizona',
-    'Arkansas',
-    'California',
-    'Colorado',
-    'Connecticut',
-    'Delaware',
-    'Florida',
-    'Georgia',
-    'Hawaii',
-    'Idaho',
-    'Illinois',
-    'Indiana',
-    'Iowa',
-    'Kansas',
-    'Kentucky',
-    'Louisiana',
-    'Maine',
-    'Maryland',
-    'Massachusetts',
-    'Michigan',
-    'Minnesota',
-    'Mississippi',
-    'Missouri',
-    'Montana',
-    'Nebraska',
-    'Nevada',
-    'New Hampshire',
-    'New Jersey',
-    'New Mexico',
-    'New York',
-    'North Carolina',
-    'North Dakota',
-    'Ohio',
-    'Oklahoma',
-    'Oregon',
-    'Pennsylvania',
-    'Rhode Island',
-    'South Carolina',
-    'South Dakota',
-    'Tennessee',
-    'Texas',
-    'Utah',
-    'Vermont',
-    'Virginia',
-    'Washington',
-    'West Virginia',
-    'Wisconsin',
-    'Wyoming',
-  ];
 
 
   constructor(private departementService:DepartementService,
@@ -122,10 +48,6 @@ export class AnnuaireComponent implements OnInit {
 
     this.obtenirListeDepartements();
     this.obtenirListeProfessions();
-
-    // this.chercherMembres();
-
-
 
     this.membre = new Membre();
     this.membre.uuid = "26cbcd2f-f67f-4e21-a8fb-acaca3299c3e";
@@ -151,47 +73,12 @@ export class AnnuaireComponent implements OnInit {
 
     this.listeMembresSelectionnes = [];
 
-    //  this.listeDepartements = [
-    //   {"numero" :971, "nom" :"Guadeloupe"},
-    //   {"numero" :972, "nom" :"Martinique"},
-    //   {"numero" :973, "nom" :"Guyane"},
-    //   {"numero" :974, "nom" :"La Réunion"},
-    //   {"numero" :976, "nom" :"Mayotte"},
-    // ];
 
-    this.listeVilles = [];
-        this.listeVilles.push({label:'sélectionner une ville', value:null});
-        this.listeVilles.push({label:'New York', value:{id:1, name: 'New York', code: 'NY'}});
-        this.listeVilles.push({label:'Rome', value:{id:2, name: 'Rome', code: 'RM'}});
-        this.listeVilles.push({label:'London', value:{id:3, name: 'London', code: 'LDN'}});
-        this.listeVilles.push({label:'Istanbul', value:{id:4, name: 'Istanbul', code: 'IST'}});
-        this.listeVilles.push({label:'Paris', value:{id:5, name: 'Paris', code: 'PRS'}});
-
-    // Angular Material
-    // this.stateCtrl = new FormControl();
-    // this.filteredStates = this.stateCtrl.valueChanges
-    //     .startWith(null)
-    //     .map(name => this.filterStates(name));
 
    }
 
   ngOnInit() {
 
-
-    // for (var index = 0; index < 10; index++) {
-    //   this.listeMembres.push({
-    //     "uuid":"96f75bf3-216b-4813-ae99-03a3728b70fc" + index,
-    //     "photo":"../../assets/wedding-photographer-portrait.jpg",
-    //     "nom":"nom " + index,
-    //     "prenom" : "prenom " + index,
-    //     "listeProfessions": this.listeProfessions,
-    //     "listeDepartements": this.listeDepartements,
-    //     "compteurPopularite" : index,
-    //     "urlSite" : "http://www.yahoo.fr",
-    //     "listeVotes" : [],
-    //     "listeFavoris" : []
-    //   });      
-    // }
     
   }
 
@@ -200,7 +87,7 @@ export class AnnuaireComponent implements OnInit {
  /**
  * obtenir la liste de tous les départements et l'attribuer à listeDepartements : Departement[].
  * - Si début de session récupérer la liste depuis le serveur.
- * - Sinon récupère la liste depuis ce sessionStorage.
+ * - Sinon récupèrer la liste depuis ce sessionStorage.
  * charger listeDepartements[].
  */
 private obtenirListeDepartements() : void {
@@ -221,7 +108,7 @@ private obtenirListeDepartements() : void {
 /**
  * obtenir la liste de toutes les professions
  * - Si début de session récupérer la liste depuis le serveur.
- * - Sinon récupère la liste depuis ce sessionStorage.
+ * - Sinon récupèrer la liste depuis ce sessionStorage.
  * charger listeProfessions[].
  * 
  */
@@ -289,7 +176,8 @@ private obtenirListeProfessions() : void {
       this.filtreDepartements = [];
 
       setTimeout(() => {
-          this.filtreDepartements = this.listeDepartements;
+          this.filtreDepartements = this.listeDepartements; //.map(x=>Object.assign({}, x));
+          console.dir(this.filtreDepartements);
       }, 10)
 
   }
@@ -300,9 +188,11 @@ private obtenirListeProfessions() : void {
    */
   private cliquerDropdownProfessions() : void {
         this.filtreProfessions = [];
+        console.dir(this.filtreProfessions);
 
         setTimeout(() => {
-            this.filtreProfessions = this.listeProfessions;
+            this.filtreProfessions = this.listeProfessions.map(x=>x);
+            console.dir(this.filtreProfessions);
         }, 10);
   }
 
@@ -338,20 +228,6 @@ private obtenirListeProfessions() : void {
 
 
 
-// ***************** TESTS
-
-
-  // bouton de test des objets récupérés dans champs de saisie.
-  // A SUPPRIMER
-  private afficherSaisie() {
-
-    console.dir(this.saisieDepartement);
-    console.dir(this.saisieProfession);
-
-  }
-
-
-
   private verifierSiFavori(uuid:string) : boolean {
 
     return this.membre.listeFavoris.some(x => x.uuid === uuid)
@@ -373,12 +249,6 @@ private obtenirListeProfessions() : void {
 
   }
 
-
-  // Angular Material
-  // filterStates(val: string) {
-  //   return val ? this.states.filter(s => s.toLowerCase().indexOf(val.toLowerCase()) === 0)
-  //              : this.states;
-  // }
 
 
   private selectionnerProfil(membre:Membre, estSelectionne:boolean) : void {

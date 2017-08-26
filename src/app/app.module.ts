@@ -26,6 +26,7 @@ import { MembreService } from "./services/membre.service";
 import { InscriptionComponent } from './inscription/inscription.component';
 import { AccueilProspectComponent } from './accueil/accueil-prospect/accueil-prospect.component';
 import { ConnexionComponent } from './connexion/connexion.component';
+import { AuthentificationGuard } from "./services/authentification.guard";
 
 
 @NgModule({
@@ -53,7 +54,7 @@ import { ConnexionComponent } from './connexion/connexion.component';
     BrowserAnimationsModule,
     AppRoutingModule
   ],
-  providers: [CompteService,DepartementService,ProfessionService, MembreService],
+  providers: [AuthentificationGuard,CompteService,DepartementService,ProfessionService, MembreService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

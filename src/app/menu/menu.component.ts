@@ -11,6 +11,8 @@ export class MenuComponent implements OnInit {
 
   idClient : string;
 
+  lienAccueil : String = "/accueil";
+
   constructor( private changeDetectionRef : ChangeDetectorRef,
               private compteService:CompteService) { }
 
@@ -18,10 +20,14 @@ export class MenuComponent implements OnInit {
 
     this.compteService.idClientObs.subscribe(
       res => {
-          if(res) {  this.idClient = res; this.changeDetectionRef.markForCheck(); // permet de détecter le changement de valeur
+          if(res) {  this.idClient = res; 
+                      this.lienAccueil="/accueil/cli"; 
+                      this.changeDetectionRef.markForCheck(); // permet de détecter le changement de valeur
           }
-          else    {  this.idClient = null; this.changeDetectionRef.markForCheck();}
+          else    {  this.idClient = null; this.lienAccueil="/accueil"; this.changeDetectionRef.markForCheck();}
       })
+
+
     
 
   }
@@ -39,7 +45,7 @@ export class MenuComponent implements OnInit {
     // this.changeDetectionRef.markForCheck();
 
     this.compteService.deconnecterCompte();
-    // router.navigateByUrl('/accueil'); vers accueil prospect.
+    
   }
 
 

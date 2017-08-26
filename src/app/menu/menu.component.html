@@ -11,7 +11,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" routerLink="/accueil">
+          <a class="navbar-brand" [routerLink]="lienAccueil">
               <img src="../../assets/tls_logo_d3.png" alt="Le Club TLS" id="logoTLS"/>  
              <!-- Le club TLS  -->
           </a>
@@ -22,17 +22,21 @@
           <ul class="nav navbar-nav">
             
             <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-              <a routerLink="/accueil">ACCUEIL</a></li>
-            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <a [routerLink]="lienAccueil">ACCUEIL</a></li>
+
+            <li *ngIf="!idClient" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <a routerLink="/inscription">INSCRIPTION</a></li>
+  
+            <li *ngIf="!idClient" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <a routerLink="/connexion">CONNEXION</a></li>      
+
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" [ngClass]="{'disabled' : !idClient}">
               <a routerLink="/creation-offre">PUBLIER UNE OFFRE</a></li>
+
             <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
               <a routerLink="/annuaire">ANNUAIRE</a></li>
             
-              <li *ngIf="!idClient" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-              <a routerLink="/inscription">INSCRIPTION</a></li>
-
-            <li *ngIf="!idClient" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-              <a routerLink="/connexion">CONNEXION</a></li>
+         
             
             <li class="dropdown navbar-right">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">MON COMPTE <span class="caret"></span></a>

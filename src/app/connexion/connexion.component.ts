@@ -26,7 +26,7 @@ export class ConnexionComponent implements OnInit {
 
     this.compteService.connecterCompte(compte)
             .subscribe(res => {console.dir(res);
-                      // redirection vers accueil membre.
+                      this.router.navigate(['/accueil/cli']);
                       },
                       err => console.log(err._body));
   }

@@ -8,12 +8,16 @@ import { PublicationOffreComponent } from "./publication-offre/publication-offre
 import { InscriptionComponent } from "./inscription/inscription.component";
 import { AccueilProspectComponent } from "./accueil/accueil-prospect/accueil-prospect.component";
 import { ConnexionComponent } from "./connexion/connexion.component";
+import { AuthentificationGuard } from "./services/authentification.guard";
 
 const appRoutes: Routes = [
 
   { path: 'accueil', component: AccueilProspectComponent },
+  { path: 'accueil/cli', component: AccueilMembreComponent,
+    canActivate: [AuthentificationGuard] },
   { path: 'annuaire', component: AnnuaireComponent },
-  { path: 'creation-offre', component: PublicationOffreComponent },
+  { path: 'creation-offre', component: PublicationOffreComponent,
+    canActivate: [AuthentificationGuard]  },
   { path: 'inscription', component: InscriptionComponent },
   { path: 'connexion', component: ConnexionComponent },    
   
